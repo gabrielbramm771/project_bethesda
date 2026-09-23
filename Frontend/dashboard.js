@@ -81,6 +81,47 @@ async function muatDaftarPasien() {
   }).join('');
 }
 
+async function muatRiwayat() {
+  const tbody = document.getElementById('tabelRiwayat');
+  tbody.innerHTML = '<tr><td colspan="4" class="kosong">Memuat data...</td></tr>';
+
+  const res = await fetch('../Backend/api_riwayat_pasien.php');
+  const hasil = await res.json();
+
+  if (!hasil.success || hasil.data.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" class="kosong">Belum ada riwayat pasien yang selesai diperiksa.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = hasil.data.map(row => `
+    <tr>
+      <td>${formatTanggal(row.tgl_periksa)}</td>
+      <td>
+        <div class="row-title">${escapeHtml(row.nama_pasien)}</div>
+        <div class="row-meta">No. RM ${escapeHtml(row.no_rm)} · Lahir ${formatTanggal(row.tgl_lahir)} · ${hitungUsia(row.tgl_lahir) ?? '-'} th</div>
+      </td>
+      <td>${escapeHtml(row.keluhan_utama || '-')}</td>
+      <td><a class="btn-small" href="rekam_medis.html?no_registrasi=${encodeURIComponent(row.no_registrasi)}">Lihat</a></td>
+    </tr>`).join('');
+}
+
+let riwayatSudahDimuat = false;
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
+
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).style.display = 'block';
+
+    if (btn.dataset.tab === 'tabRiwayat' && !riwayatSudahDimuat) {
+      riwayatSudahDimuat = true;
+      await muatRiwayat();
+    }
+  });
+});
+
 document.getElementById('btnLogout').addEventListener('click', async () => {
   await fetch('../Backend/api_logout.php');
   window.location.href = 'login.html';

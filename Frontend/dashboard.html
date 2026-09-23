@@ -37,25 +37,52 @@
       </div>
     </div>
 
-    <h1>Daftar pasien hari ini</h1>
+    <div class="tabs">
+      <button type="button" class="tab-btn active" data-tab="tabHariIni">Pasien hari ini</button>
+      <button type="button" class="tab-btn" data-tab="tabRiwayat">Riwayat pasien</button>
+    </div>
 
-    <p class="pesan-sukses" id="pesanSukses" style="display:none;">Rekam medis berhasil disimpan.</p>
+    <div id="tabHariIni" class="tab-panel">
+      <h1>Daftar pasien hari ini</h1>
 
-    <div class="card">
-      <table>
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th>Pasien</th>
-            <th>Keluhan</th>
-            <th>Status</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="tabelPasien">
-          <tr><td colspan="5" class="kosong">Memuat data...</td></tr>
-        </tbody>
-      </table>
+      <p class="pesan-sukses" id="pesanSukses" style="display:none;">Rekam medis berhasil disimpan.</p>
+
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Pasien</th>
+              <th>Keluhan</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tabelPasien">
+            <tr><td colspan="5" class="kosong">Memuat data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="tabRiwayat" class="tab-panel" style="display:none;">
+      <h1>Riwayat pasien</h1>
+
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>Pasien</th>
+              <th>Keluhan</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tabelRiwayat">
+            <tr><td colspan="4" class="kosong">Memuat data...</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
