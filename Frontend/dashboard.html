@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Dokter · Rumah Sakit Bethesda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-brand">
+      <img src="../Asset/logo_bethesda.png" alt="Logo Rumah Sakit Bethesda" class="topbar-logo">
+      <div>
+        <div class="who-name" id="namaDokter">-</div>
+        <div class="who-sub" id="subJudul">Dashboard dokter</div>
+      </div>
+    </div>
+    <button class="btn-ghost" id="btnLogout">Keluar</button>
+  </div>
+
+  <div class="main">
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card">
+        <div class="stat-value" id="statTotal">-</div>
+        <div class="stat-label">Pasien hari ini</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statMenunggu">-</div>
+        <div class="stat-label">Menunggu diperiksa</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statSelesai">-</div>
+        <div class="stat-label">Selesai diperiksa</div>
+      </div>
+    </div>
+
+    <h1>Daftar pasien hari ini</h1>
+
+    <p class="pesan-sukses" id="pesanSukses" style="display:none;">Rekam medis berhasil disimpan.</p>
+
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Pasien</th>
+            <th>Keluhan</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tabelPasien">
+          <tr><td colspan="5" class="kosong">Memuat data...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

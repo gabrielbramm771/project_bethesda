@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pendaftaran Mandiri Pasien - RS Bethesda</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-100 min-h-screen py-8 px-4 flex items-center justify-center">
+
+  <!-- Main Container Card -->
+  <div class="max-w-xl w-full bg-white rounded-3xl shadow-2xl border border-slate-200/80 overflow-hidden transition-all">
+    
+    <!-- Header Banner (Biru) -->
+    <div class="bg-gradient-to-r from-blue-700 via-indigo-600 to-blue-800 p-6 text-white text-center relative overflow-hidden">
+      <!-- Accent background pattern -->
+      <div class="absolute -right-6 -top-6 w-24 h-24 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
+      <div class="absolute -left-6 -bottom-6 w-24 h-24 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
+
+      <div class="inline-flex items-center justify-center w-16 h-16 bg-white p-2 rounded-2xl mb-3 shadow-md">
+        <img src="../Asset/OIP.jpg" alt="Logo RS Bethesda" class="w-full h-full object-contain">
+    </div>
+      <h1 class="text-2xl font-bold tracking-tight">RS BETHESDA YOGYAKARTA</h1>
+      <p class="text-xs text-blue-100 mt-1 font-medium">Layanan Pendaftaran Mandiri Pasien</p>
+    </div>
+
+    <!-- Form Section -->
+    <form action="../Backend/proses_pendaftaran.php" method="POST" class="p-6 md:p-8 space-y-6">
+      
+      <!-- STEP 1: Cek No RM -->
+      <div class="space-y-2">
+        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">1. Nomor Rekam Medis (RM)</label>
+        <div class="flex gap-2">
+          <div class="relative flex-1">
+            <input type="text" id="no_rm" name="no_rm" placeholder="Contoh: RM-00123" required 
+              class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition-all placeholder:text-slate-400">
+          </div>
+          <button type="button" onclick="cekPasien()" 
+            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm px-6 py-3 rounded-xl transition-all shadow-md shadow-blue-600/20 active:scale-95 flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            Cek
+          </button>
+        </div>
+      </div>
+
+      <!-- Card Biodata Pasien (Sembunyi sebelum dicek) -->
+      <div id="infoPasien" class="hidden bg-blue-50/80 border border-blue-200/80 rounded-2xl p-4 text-xs text-slate-700 space-y-2 transition-all">
+        <div class="flex items-center justify-between border-b border-blue-200 pb-2">
+          <span class="font-bold text-blue-900 flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Pasien Terverifikasi
+          </span>
+        </div>
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <div><span class="text-slate-400 block">Nama Lengkap</span> <strong id="namaPasien" class="text-slate-800 text-sm">-</strong></div>
+          <div><span class="text-slate-400 block">NIK</span> <span id="ktpPasien" class="font-mono text-slate-700">-</span></div>
+          <div><span class="text-slate-400 block">No. Telepon</span> <span id="telpPasien" class="text-slate-700">-</span></div>
+          <div><span class="text-slate-400 block">Alamat</span> <span id="alamatPasien" class="text-slate-700 truncate block">-</span></div>
+        </div>
+      </div>
+
+      <!-- STEP 2: Pilih Klinik -->
+      <div class="space-y-2">
+        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">2. Poli Tujuan</label>
+        <select id="select_klinik" name="kode_klinik" required 
+          class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition-all">
+          <option value="">-- Memuat Klinik... --</option>
+        </select>
+      </div>
+
+      <!-- STEP 3: Pilih Dokter -->
+      <div class="space-y-2">
+        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">3. Dokter Spesialis</label>
+        <select id="select_dokter" name="id_dokter" required 
+          class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition-all">
+          <option value="">-- Pilih Klinik Terlebih Dahulu --</option>
+        </select>
+      </div>
+
+      <!-- Display Info Registrasi & Antrean -->
+      <div class="bg-slate-50/80 rounded-2xl p-4 border border-slate-200/80 grid grid-cols-2 gap-4 text-center divide-x divide-slate-200">
+        <div class="pr-2">
+          <span class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">No. Registrasi</span>
+          <input type="text" id="no_registrasi" name="no_registrasi" readonly placeholder="-" 
+            class="w-full text-center bg-transparent font-mono font-bold text-blue-700 text-sm focus:outline-none">
+        </div>
+        <div class="pl-2">
+          <span class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Estimasi No. Urut</span>
+          <span id="no_urut_display" class="text-2xl font-black text-slate-800 font-mono tracking-tight">-</span>
+        </div>
+      </div>
+
+      <!-- STEP 4: Keluhan Utama -->
+      <div class="space-y-2">
+        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">4. Keluhan Utama</label>
+        <textarea name="keluhan_utama" rows="3" placeholder="Tuliskan keluhan atau alasan kunjungan singkat..." required
+          class="w-full bg-slate-50 border border-slate-300 text-slate-800 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition-all placeholder:text-slate-400 resize-none"></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" 
+        class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg shadow-blue-600/25 transition-all transform active:scale-[0.99] flex items-center justify-center gap-2">
+        <span>Konfirmasi & Daftar</span>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </button>
+
+    </form>
+  </div>
+
+  <script src="pendaftaran.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+# Mengabaikan file konfigurasi lokal jika ada password sensitif
+koneksi.php
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# File log atau cache
+*.log
