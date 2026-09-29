@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rekam Medis · Rumah Sakit Bethesda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-brand">
+      <img src="../Asset/logo_bethesda.png" alt="Logo Rumah Sakit Bethesda" class="topbar-logo">
+      <div>
+        <div class="who-name">Rekam medis</div>
+        <div class="who-sub" id="noRegistrasiLabel">-</div>
+      </div>
+    </div>
+    <button class="btn-ghost" id="btnLogout">Keluar</button>
+  </div>
+
+  <div class="main">
+    <a class="btn-back" href="dashboard.html">&larr; Kembali ke daftar pasien</a>
+
+    <div class="rm-header" id="rmHeader">
+      <div class="row-title">Memuat data...</div>
+    </div>
+
+    <p class="pesan-error" id="pesanError" style="display:none;"></p>
+
+    <form class="rm-form" id="formRekamMedis">
+
+      <div class="rm-columns">
+        <!-- ============ KOLOM KIRI: Transaksi Subyek ============ -->
+        <div class="rm-col">
+          <h2>A. Transaksi Subyek : Dokter/Perawat</h2>
+
+          <div class="field">
+            <label for="keluhan_utama">Keluhan Utama <span class="row-meta" style="font-weight:400;">(dari pendaftaran)</span></label>
+            <textarea id="keluhan_utama" name="keluhan_utama" readonly placeholder="Keluhan yang disampaikan pasien"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="rps">RPS (Riwayat Penyakit Sekarang)</label>
+            <textarea id="rps" name="rps" required></textarea>
+          </div>
+
+          <div class="field">
+            <label>RPD (Riwayat Penyakit Dulu)</label>
+            <div class="rm-checkbox-grid">
+              <label class="rm-checkbox"><input type="checkbox" id="rpd_tidak_ada"> Tidak Ada</label>
+              <label class="rm-checkbox"><input type="checkbox" id="rpd_hipertensi"> Hipertensi</label>
+              <label class="rm-checkbox"><input type="checkbox" id="rpd_asma"> Asma</label>
+              <label class="rm-checkbox"><input type="checkbox" id="rpd_tbc"> TBC</label>
+              <label class="rm-checkbox"><input type="checkbox" id="rpd_dm"> DM</label>
+              <label class="rm-checkbox"><input type="checkbox" id="rpd_ginjal"> Ginjal</label>
+              <label class="rm-checkbox"><input type="checkbox" id="rpd_jantung"> Jantung</label>
+            </div>
+          </div>
+
+          <div class="field rm-riwayat-row">
+            <label for="riwayat_operasi_ada">Riwayat Operasi</label>
+            <div class="rm-riwayat-inline">
+              <select id="riwayat_operasi_ada">
+                <option value="Tidak">Tidak</option>
+                <option value="Ya">Ya</option>
+              </select>
+              <input type="text" id="riwayat_operasi_ket" placeholder="Keterangan">
+            </div>
+          </div>
+
+          <div class="field rm-riwayat-row">
+            <label for="riwayat_alergi_ada">Riwayat Alergi</label>
+            <div class="rm-riwayat-inline">
+              <select id="riwayat_alergi_ada">
+                <option value="Tidak">Tidak</option>
+                <option value="Ya">Ya</option>
+              </select>
+              <input type="text" id="riwayat_alergi_ket" placeholder="Keterangan">
+            </div>
+          </div>
+
+          <div class="field rm-riwayat-row">
+            <label for="riwayat_keluarga_ada">Riw. Peny. Keluarga</label>
+            <div class="rm-riwayat-inline">
+              <select id="riwayat_keluarga_ada">
+                <option value="Tidak">Tidak</option>
+                <option value="Ya">Ya</option>
+              </select>
+              <input type="text" id="riwayat_keluarga_ket" placeholder="Keterangan">
+            </div>
+          </div>
+        </div>
+
+        <!-- ============ KOLOM KANAN: Assesment/Diagnosis ============ -->
+        <div class="rm-col">
+          <h2>A. Assesment/Diagnosis (Dokter)</h2>
+
+          <div class="field">
+            <label for="assesment">Assesment</label>
+            <textarea id="assesment" name="assesment" placeholder="Assesment dokter"></textarea>
+          </div>
+
+          <div class="field">
+            <label>ICD / SNOMED</label>
+            <table class="rm-dx-table">
+              <thead>
+                <tr>
+                  <th>Kode</th>
+                  <th>Nama</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="tabelDiagnosis"></tbody>
+            </table>
+            <button type="button" class="btn-small" id="btnTambahDiagnosis">+ Tambah diagnosis</button>
+          </div>
+
+          <h2 style="margin-top:24px;">B. Planning Dokter</h2>
+          <p class="row-meta" style="margin-bottom:8px;">Rencana Tindakan, Pemeriksaan Penunjang, Terapi (p) dan Implementasi</p>
+
+          <div class="field">
+            <label for="planning_dokter">Planning Dokter</label>
+            <textarea id="planning_dokter" name="planning_dokter"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="diet">Diet</label>
+            <textarea id="diet" name="diet"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="resep_obat">Resep obat</label>
+        <textarea id="resep_obat" name="resep_obat" placeholder="Nama obat, dosis, aturan pakai"></textarea>
+      </div>
+
+      <button type="submit" class="btn-primary">Selesai periksa &amp; simpan</button>
+    </form>
+  </div>
+
+  <!-- Template baris tabel diagnosis, dipakai lewat JS -->
+  <template id="templateBarisDiagnosis">
+    <tr>
+      <td><input type="text" class="dx-kode" placeholder="Kode"></td>
+      <td><input type="text" class="dx-nama" placeholder="Masukan kata pencarian batuk, flu, demam, dll"></td>
+      <td><button type="button" class="btn-hapus-dx" aria-label="Hapus diagnosis">&times;</button></td>
+    </tr>
+  </template>
+
+  <script src="rekam_medis.js"></script>
+</body>
+</html>
