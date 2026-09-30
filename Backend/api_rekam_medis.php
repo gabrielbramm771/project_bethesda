@@ -8,7 +8,7 @@
 //             riwayat_operasi_ada, riwayat_operasi_ket,
 //             riwayat_alergi_ada, riwayat_alergi_ket,
 //             riwayat_keluarga_ada, riwayat_keluarga_ket,
-//             assesment, planning_dokter, diet,
+//             assesment, planning_dokter, diet, resep_obat,
 //             diagnosis: [ { kode, nama }, ... ]
 //           }
 
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 rm.riwayat_operasi_ada, rm.riwayat_operasi_ket,
                 rm.riwayat_alergi_ada, rm.riwayat_alergi_ket,
                 rm.riwayat_keluarga_ada, rm.riwayat_keluarga_ket,
-                rm.assesment, rm.planning_dokter, rm.diet,
+                rm.assesment, rm.planning_dokter, rm.diet, rm.resep_obat,
                 ps.no_rm, ps.nama_pasien, ps.tgl_lahir
          FROM pendaftaran p
          JOIN pasien ps ON ps.no_rm = p.no_rm
@@ -80,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $assesment       = trim($input['assesment'] ?? '');
     $planning_dokter = trim($input['planning_dokter'] ?? '');
     $diet            = trim($input['diet'] ?? '');
+    $resep_obat      = trim($input['resep_obat'] ?? '');
 
     $diagnosis = is_array($input['diagnosis'] ?? null) ? $input['diagnosis'] : [];
 
@@ -106,8 +107,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             riwayat_operasi_ada, riwayat_operasi_ket,
             riwayat_alergi_ada, riwayat_alergi_ket,
             riwayat_keluarga_ada, riwayat_keluarga_ket,
-            assesment, planning_dokter, diet
-         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            assesment, planning_dokter, diet, resep_obat
+         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
          ON DUPLICATE KEY UPDATE
             keluhan_utama = VALUES(keluhan_utama),
             rps = VALUES(rps),
@@ -126,16 +127,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             riwayat_keluarga_ket = VALUES(riwayat_keluarga_ket),
             assesment = VALUES(assesment),
             planning_dokter = VALUES(planning_dokter),
-            diet = VALUES(diet)"
+            diet = VALUES(diet),
+            resep_obat = VALUES(resep_obat)"
     );
+    // 3 string + 7 integer + 10 string = 20 parameter
+    $tipe = 'sss' . 'iiiiiii' . 'ssssssssss';
     $stmt->bind_param(
-        'sssiiiiiiisssssssss',
+        $tipe,
         $no_registrasi, $keluhan_utama, $rps,
         $rpd_tidak_ada, $rpd_hipertensi, $rpd_asma, $rpd_tbc, $rpd_dm, $rpd_ginjal, $rpd_jantung,
         $riwayat_operasi_ada, $riwayat_operasi_ket,
         $riwayat_alergi_ada, $riwayat_alergi_ket,
         $riwayat_keluarga_ada, $riwayat_keluarga_ket,
-        $assesment, $planning_dokter, $diet
+        $assesment, $planning_dokter, $diet, $resep_obat
     );
     $stmt->execute();
 
