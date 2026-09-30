@@ -22,34 +22,6 @@ async function cekSesi() {
   return hasil;
 }
 
-// ---------- Tabel diagnosis dinamis ----------
-
-function tambahBarisDiagnosis(kode = '', nama = '') {
-  const template = document.getElementById('templateBarisDiagnosis');
-  const baris = template.content.firstElementChild.cloneNode(true);
-
-  baris.querySelector('.dx-kode').value = kode;
-  baris.querySelector('.dx-nama').value = nama;
-  baris.querySelector('.btn-hapus-dx').addEventListener('click', () => baris.remove());
-
-  document.getElementById('tabelDiagnosis').appendChild(baris);
-}
-
-function ambilDataDiagnosis() {
-  const baris = document.querySelectorAll('#tabelDiagnosis tr');
-  const hasil = [];
-  baris.forEach(tr => {
-    const kode = tr.querySelector('.dx-kode').value.trim();
-    const nama = tr.querySelector('.dx-nama').value.trim();
-    if (kode !== '' || nama !== '') {
-      hasil.push({ kode, nama });
-    }
-  });
-  return hasil;
-}
-
-document.getElementById('btnTambahDiagnosis').addEventListener('click', () => tambahBarisDiagnosis());
-
 // ---------- Muat detail rekam medis ----------
 
 async function muatDetail() {
@@ -96,13 +68,6 @@ async function muatDetail() {
   document.getElementById('planning_dokter').value = d.planning_dokter || '';
   document.getElementById('diet').value            = d.diet || '';
   document.getElementById('resep_obat').value      = d.resep_obat || '';
-
-  document.getElementById('tabelDiagnosis').innerHTML = '';
-  if (Array.isArray(d.diagnosis) && d.diagnosis.length > 0) {
-    d.diagnosis.forEach(dx => tambahBarisDiagnosis(dx.kode, dx.nama));
-  } else {
-    tambahBarisDiagnosis(); // minimal 1 baris kosong untuk mulai isi
-  }
 }
 
 // ---------- Simpan ----------
@@ -135,9 +100,7 @@ document.getElementById('formRekamMedis').addEventListener('submit', async (e) =
     assesment:       document.getElementById('assesment').value.trim(),
     planning_dokter: document.getElementById('planning_dokter').value.trim(),
     diet:            document.getElementById('diet').value.trim(),
-    resep_obat:      document.getElementById('resep_obat').value.trim(),
-
-    diagnosis: ambilDataDiagnosis()
+    resep_obat:      document.getElementById('resep_obat').value.trim()
   };
 
   try {
