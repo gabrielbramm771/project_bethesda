@@ -35,10 +35,10 @@
       <div class="rm-columns">
         <!-- ============ KOLOM KIRI: Transaksi Subyek ============ -->
         <div class="rm-col">
-          <h2>A. Transaksi Subyek : Dokter/Perawat</h2>
+          <h2>Pemeriksaan</h2>
 
           <div class="field">
-            <label for="keluhan_utama">Keluhan Utama <span class="row-meta" style="font-weight:400;">(dari pendaftaran)</span></label>
+            <label for="keluhan_utama">Keluhan Utama</label>
             <textarea id="keluhan_utama" name="keluhan_utama" readonly placeholder="Keluhan yang disampaikan pasien"></textarea>
           </div>
 
@@ -96,29 +96,14 @@
 
         <!-- ============ KOLOM KANAN: Assesment/Diagnosis ============ -->
         <div class="rm-col">
-          <h2>A. Assesment/Diagnosis (Dokter)</h2>
+          <h2>Diagnosis</h2>
 
           <div class="field">
             <label for="assesment">Assesment</label>
             <textarea id="assesment" name="assesment" placeholder="Assesment dokter"></textarea>
           </div>
 
-          <div class="field">
-            <label>ICD / SNOMED</label>
-            <table class="rm-dx-table">
-              <thead>
-                <tr>
-                  <th>Kode</th>
-                  <th>Nama</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="tabelDiagnosis"></tbody>
-            </table>
-            <button type="button" class="btn-small" id="btnTambahDiagnosis">+ Tambah diagnosis</button>
-          </div>
-
-          <h2 style="margin-top:24px;">B. Planning Dokter</h2>
+          <h2 style="margin-top:24px;">Planning pengobatan</h2>
           <p class="row-meta" style="margin-bottom:8px;">Rencana Tindakan, Pemeriksaan Penunjang, Terapi (p) dan Implementasi</p>
 
           <div class="field">
@@ -130,26 +115,17 @@
             <label for="diet">Diet</label>
             <textarea id="diet" name="diet"></textarea>
           </div>
-        </div>
-      </div>
 
-      <div class="field">
-        <label for="resep_obat">Resep obat</label>
-        <textarea id="resep_obat" name="resep_obat" placeholder="Nama obat, dosis, aturan pakai"></textarea>
+          <div class="field">
+            <label for="resep_obat">Resep obat</label>
+            <textarea id="resep_obat" name="resep_obat" placeholder="Nama obat, dosis, aturan pakai"></textarea>
+          </div>
+        </div>
       </div>
 
       <button type="submit" class="btn-primary">Selesai periksa &amp; simpan</button>
     </form>
   </div>
-
-  <!-- Template baris tabel diagnosis, dipakai lewat JS -->
-  <template id="templateBarisDiagnosis">
-    <tr>
-      <td><input type="text" class="dx-kode" placeholder="Kode"></td>
-      <td><input type="text" class="dx-nama" placeholder="Masukan kata pencarian batuk, flu, demam, dll"></td>
-      <td><button type="button" class="btn-hapus-dx" aria-label="Hapus diagnosis">&times;</button></td>
-    </tr>
-  </template>
 
   <script src="rekam_medis.js"></script>
 </body>
